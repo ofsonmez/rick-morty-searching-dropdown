@@ -44,10 +44,11 @@ export class HttpClientAxios implements HttpClientInterface {
           console.warn("HttpClientAxios: Invalid request type argument or request type not implemented");
         }
       }
-    } catch (e) {
-      if (e as AxiosError) {
-        throw Error(e.response.data.error as string);
-      }
+    } catch (error) {
+      let message;
+      if (error instanceof AxiosError) message = error.response?.data.error;
+      else message = String(error);
+      throw Error(message);
     }
 
     return result;
